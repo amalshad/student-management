@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Directory | Mint & Latte</title>
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Boxicons CDN for modern iconography -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- App Container -->
+    <div class="app-container">
+        
+        <!-- Sidebar Navigation (Sleek Glassmorphic sidebar) -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <i class="bx bxs-graduation"></i>
+                </div>
+                <h2>Academia</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" id="nav-dashboard">
+                    <i class="bx bxs-dashboard"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" id="nav-students">
+                    <i class="bx bxs-group"></i>
+                    <span>Students</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <span class="theme-tag">Mint & Latte UI</span>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <!-- Top Header -->
+            <header class="main-header">
+                <div class="header-title">
+                    <h1 id="page-title">Student Dashboard</h1>
+                    <p class="subtitle" id="page-subtitle">Overview of institution enrollments and records</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="btn-add-shortcut">
+                        <i class="bx bx-plus"></i> Add Student
+                    </button>
+                </div>
+            </header>
+
+            <!-- Loading Spinner (Global) -->
+            <div class="loader-container" id="loader">
+                <div class="spinner"></div>
+            </div>
+
+            <!-- Content Screens -->
+            <div class="content-wrapper">
+                
+                <!-- Dashboard & Directory Layout Grid -->
+                <section class="dashboard-grid">
+                    
+                    <!-- Stats Area (Top row in dashboard) -->
+                    <div class="stats-row">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-mint-light">
+                                <i class="bx bxs-user-detail text-mint"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Total Students</span>
+                                <h3 class="stat-value" id="stat-total">0</h3>
+                            </div>
+                            <div class="stat-trend trend-neutral">
+                                <span class="trend-text">Database Active</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon bg-latte-light">
+                                <i class="bx bx-time text-accent"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Average Age</span>
+                                <h3 class="stat-value" id="stat-avg-age">0.0</h3>
+                            </div>
+                            <div class="stat-trend">
+                                <span class="trend-text">Years Old</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon bg-mint-light">
+                                <i class="bx bx-calendar-star text-mint"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Latest Student</span>
+                                <h3 class="stat-value text-truncate" id="stat-latest">None</h3>
+                            </div>
+                            <div class="stat-trend text-truncate-sub">
+                                <span class="trend-text" id="stat-latest-email">No records yet</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Split Section: Listing & Form Side-by-Side -->
+                    <div class="split-section">
+                        
+                        <!-- Left Pane: Students List Directory -->
+                        <div class="directory-pane card">
+                            <div class="pane-header">
+                                <h3 class="card-title">Directory Records</h3>
+                                <div class="pane-controls">
+                                    <div class="search-box">
+                                        <i class="bx bx-search search-icon"></i>
+                                        <input type="text" id="search-input" placeholder="Search students...">
+                                    </div>
+                                    <div class="select-wrapper">
+                                        <select id="sort-select">
+                                            <option value="newest">Newest First</option>
+                                            <option value="name-asc">Name (A-Z)</option>
+                                            <option value="name-desc">Name (Z-A)</option>
+                                            <option value="age-asc">Age (Youngest)</option>
+                                            <option value="age-desc">Age (Oldest)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- List Table -->
+                            <div class="table-responsive">
+                                <table class="custom-table" id="students-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Age</th>
+                                            <th>Email</th>
+                                            <th>Enrolled</th>
+                                            <th class="text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="students-list">
+                                        <!-- Dynamic Content Loaded Here -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Empty State -->
+                            <div class="empty-state hidden" id="empty-state">
+                                <div class="empty-icon">
+                                    <i class="bx bx-folder-open"></i>
+                                </div>
+                                <h4>No students found</h4>
+                                <p>Get started by adding a student using the form.</p>
+                            </div>
+                        </div>
+
+                        <!-- Right Pane: Interactive Student Form -->
+                        <div class="form-pane card" id="form-container">
+                            <div class="pane-header">
+                                <h3 class="card-title" id="form-title">Enroll Student</h3>
+                                <p class="card-description" id="form-subtitle">Create a new student profile in the system database</p>
+                            </div>
+                            
+                            <form id="student-form" novalidate>
+                                <input type="hidden" id="student-id">
+                                
+                                <div class="form-group">
+                                    <label for="student-name">Full Name</label>
+                                    <div class="input-wrapper">
+                                        <i class="bx bx-user field-icon"></i>
+                                        <input type="text" id="student-name" placeholder="John Doe" required>
+                                    </div>
+                                    <span class="error-msg" id="name-error">Name is required</span>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="student-age">Age</label>
+                                        <div class="input-wrapper">
+                                            <i class="bx bx-calendar-event field-icon"></i>
+                                            <input type="number" id="student-age" placeholder="20" min="1" max="150" required>
+                                        </div>
+                                        <span class="error-msg" id="age-error">Age is required (1-150)</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="student-email">Email Address</label>
+                                    <div class="input-wrapper">
+                                        <i class="bx bx-envelope field-icon"></i>
+                                        <input type="email" id="student-email" placeholder="john.doe@example.com" required>
+                                    </div>
+                                    <span class="error-msg" id="email-error">Enter a valid email address</span>
+                                </div>
+
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-secondary hidden" id="btn-cancel-edit">
+                                        Cancel
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" id="btn-submit">
+                                        <span id="btn-text">Submit Enrollment</span>
+                                        <i class="bx bx-send"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Confirm Deletion Modal -->
+    <div class="modal-backdrop hidden" id="delete-modal">
+        <div class="modal card">
+            <div class="modal-header">
+                <div class="modal-warning-icon">
+                    <i class="bx bx-error-alt"></i>
+                </div>
+                <h3>Delete Student Profile?</h3>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong id="delete-student-name">this student</strong>? This action is permanent and cannot be undone.</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="btn-delete-cancel">Cancel</button>
+                <button class="btn btn-danger" id="btn-delete-confirm">Delete Profile</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Area -->
+    <div class="toast-container" id="toast-container"></div>
+    <script src="style.js"></script>
+</body>
+
+</html>
